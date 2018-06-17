@@ -15,36 +15,25 @@ Node* Tree::newNode(int data)
         return temp;
 }
 
-Node* Tree::check(int data, Node* temp, Node* parent, std::string dir)
+Node* Tree::insert(Node* parent, int data)
 {
-        if ( temp == NULL ) {
-                if(dir == "left" ) {
-                        parent -> left = newNode(data);
-                } else {
-                        parent -> right = newNode(data);
-                }
-                return temp;
-        }
-        parent = temp;
-        if ( data < temp -> value ) {
-                dir = "left";
-                check(data, temp -> left, parent, dir);
+        if ( parent == NULL ) {
+                parent = newNode (data);           
+        } else if ( data <= parent -> value ) {
+                parent -> left = insert(parent -> left, data);
         } else {
-                dir = "right";
-                check(data, temp -> right, parent, dir);
+                parent -> right = insert(parent -> right, data);
         }
+        return parent;        
 }
 
-void Tree::add(int data)
+void Tree::insert_data(int data)
 {
-        Node* temp = newNode(data);
-          if ( root == NULL ) {
-                root = temp;
+        if ( root == NULL ) {
+                root = newNode(data);
         } else {
-                temp = root;
-                std::string dir = "";
-                check(data, temp, root, dir);
-        }                        
+                insert (root, data);
+        }
 }
 
 void Tree::postorder(Node* p, int indent=0)

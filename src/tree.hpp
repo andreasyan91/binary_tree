@@ -6,9 +6,9 @@ class Tree
         public:
                 Tree();
                 Node* newNode(int);
-                void add(int);
+                Node* insert(Node*, int);
                 //remove();
-                Node* check(int, Node*, Node*, std::string);
+                void insert_data(int);
                 void postorder(Node*, int);
                 void print_postorder();
                 
