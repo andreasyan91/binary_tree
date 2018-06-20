@@ -11,6 +11,11 @@ class Tree
                 void insert_data(int);
                 void postorder(Node*, int);
                 void print_postorder();
+                bool search(Node*, int);
+                void find(int);
+                void remove(int);
+                Node* remove_node(Node*, int);
+                int left_count(Node*, int)
                 
         private:
                 Node* root;

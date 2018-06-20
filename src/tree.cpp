@@ -36,19 +36,104 @@ void Tree::insert_data(int data)
         }
 }
 
-void Tree::postorder(Node* p, int indent=0)
+int Tree::left_count(Node* parent, int count)
 {
-        if(p != NULL) {
+        if (parent != NULL ) {
+                if ( parent->left != NULL) {
+                        left_count(parent->left, ++count);
+                }
+        }
+        return count;
+}
+
+void Tree::postorder(Node* parent, int indent = 4)
+{
+        //char c = '\';
+        if (parent != NULL) {
+                std::cout << "  " << parent->value << std::endl;
+                if (parent->left != NULL) {
+                        std::cout << "/" << "   \\" <<std::endl;
+                        postorder(parent->left,indent+4);
+                } else {
+                        std::cout << "NULL       ";
+                }
+                if (parent->right != NULL) {
+                        postorder(parent->right,indent +4);
+                } else {
+                        std::cout << "\\" << std::endl;
+                        std::cout << "NULL";
+                }
+                /*if (parent->left != NULL) {
+                        std::cout << parent->left->value << "    ";
+                }
+                if (parent->right != NULL) {
+                        std::cout << parent->right->value;
+                }
                 if(p->left) postorder(p->left, indent+4);
                 if(p->right) postorder(p->right, indent+4);
                 if (indent) {
                         std::cout << std::setw(indent) << ' ';
-                }
-                std::cout<< p->value << "\n ";
+                }*/
+                std::cout << std::endl;
         }
 }       
 
 void Tree::print_postorder()
 {
      postorder(root);
+}
+
+bool Tree::search(Node* parent, int data)
+{
+
+        if ( parent == NULL ) {
+                std::cout << "Not found" << std::endl;
+                return false;
+        }
+        if ( data == parent -> value ) {
+                std::cout << "Found!!!" << std::endl;
+                return true;
+        } else if ( data < parent -> value ) {
+                search(parent -> left, data);
+        } else {
+                search(parent -> right, data);
+        }      
+}
+
+void Tree::find(int data)
+{
+        search(root, data);
+}
+
+Node* Tree::remove_node(Node* parent, int data)
+{
+        if (parent == NULL) {
+                return parent;
+        } else if ( data < parent -> value) {
+                parent -> left = remove_node ( parent -> left, data );
+        } else if ( data > parent ->value) {
+                parent -> right = remove_node ( parent -> right, data );
+        } else {
+                if ( (parent -> left == NULL) && (parent -> right == NULL)) {
+                        delete parent;
+                        parent = NULL;
+                        return parent;
+                }
+                if (parent -> left == NULL) {
+                        parent = parent -> left;
+                        return parent;
+                }
+                if (parent -> right == NULL) {
+                        parent =parent -> right;
+                        return parent;
+                } /*else {
+                        Node* temp = find_min(parent->right);
+                        parent->data = temp->data;
+                        parent->right = remove(parent->right, temp->data);
+        }*/
+}
+}
+void Tree::remove(int data)
+{
+        remove_node(root, data);
 }
